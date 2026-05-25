@@ -77,7 +77,7 @@ export default function PrivacyPage() {
               <li>להתנגד לעיבוד המידע</li>
             </ul>
             <p style={{ marginTop: '12px' }}>
-              לממש זכויות אלה, פנה אלינו בכתב: <a href="mailto:avramdasa@gmail.com" style={{ color: 'var(--gold)' }}>avramdasa@gmail.com</a>
+              לממש זכויות אלה, פנה אלינו בכתב: <a href="mailto:avramdasa777@gmail.com" style={{ color: 'var(--gold)' }}>avramdasa777@gmail.com</a>
             </p>
           </LegalSection>
 
@@ -97,7 +97,7 @@ export default function PrivacyPage() {
             <p>
               לכל שאלה בעניין מדיניות הפרטיות, פנו אלינו:<br />
               <strong>אברהם דסה — A.D Finance</strong><br />
-              מייל: <a href="mailto:avramdasa@gmail.com" style={{ color: 'var(--gold)' }}>avramdasa@gmail.com</a><br />
+              מייל: <a href="mailto:avramdasa777@gmail.com" style={{ color: 'var(--gold)' }}>avramdasa777@gmail.com</a><br />
               טלפון: <a href="tel:0528796188" style={{ color: 'var(--gold)' }}>052-879-6188</a>
             </p>
           </LegalSection>

@@ -35,10 +35,10 @@ export default function Footer() {
                 onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.7)')}>
                 <PhoneIcon /> 052-879-6188
               </a>
-              <a href="mailto:avramdasa@gmail.com" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', transition: 'color 0.2s' }}
+              <a href="mailto:avramdasa777@gmail.com" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', transition: 'color 0.2s' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#c8a035')}
                 onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.7)')}>
-                <MailIcon /> avramdasa@gmail.com
+                <MailIcon /> avramdasa777@gmail.com
               </a>
             </div>
           </div>

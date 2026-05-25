@@ -81,7 +81,7 @@ export default function TermsPage() {
             <p>
               לכל שאלה או פנייה:<br />
               <strong>אברהם דסה — A.D Finance</strong><br />
-              מייל: <a href="mailto:avramdasa@gmail.com" style={{ color: 'var(--gold)' }}>avramdasa@gmail.com</a><br />
+              מייל: <a href="mailto:avramdasa777@gmail.com" style={{ color: 'var(--gold)' }}>avramdasa777@gmail.com</a><br />
               טלפון: <a href="tel:0528796188" style={{ color: 'var(--gold)' }}>052-879-6188</a>
             </p>
           </LegalSection>

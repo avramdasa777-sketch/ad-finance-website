@@ -80,7 +80,7 @@ const processSteps = [
   {
     num: '02',
     title: 'ניתוח מקצועי מעמיק',
-    desc: 'אברהם בוחן את כל המסמכים, הפוליסות וההסכמים ומזהה הזדמנויות לשיפור.',
+    desc: 'אנחנו בוחנים את כל המסמכים, הפוליסות וההסכמים ומזהים הזדמנויות לשיפור.',
   },
   {
     num: '03',
@@ -218,17 +218,17 @@ export default function HomePage() {
         {/* Video background */}
         <video
           autoPlay muted loop playsInline aria-hidden="true"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.28, zIndex: 0 }}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5, zIndex: 0 }}
         >
           <source src="/videos/crypto-trading.mp4" type="video/mp4" />
         </video>
-        <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(7,15,30,0.88) 0%, rgba(13,31,60,0.78) 100%)', zIndex: 1 }} />
+        <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(7,15,30,0.62) 0%, rgba(13,31,60,0.52) 100%)', zIndex: 1 }} />
 
         <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
           <div className="reveal" style={{ textAlign: 'center', marginBottom: '60px' }}>
             <div className="section-tag">למה לבחור בנו</div>
             <h2 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', fontWeight: 900, color: '#ffffff', marginBottom: '16px' }}>
-              מה מייחד את אברהם דסה
+              מה מייחד אותנו
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '1.05rem', maxWidth: '520px', margin: '0 auto', lineHeight: 1.7 }}>
               ייעוץ שמתחיל מהקשבה — ולא עוצר עד שתגיעו ליעד

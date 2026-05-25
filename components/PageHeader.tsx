@@ -34,7 +34,7 @@ export default function PageHeader({ tag, title, subtitle, breadcrumb, imageSrc,
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            opacity: 0.62,
+            opacity: 0.78,
             zIndex: 0,
           }}
         >
@@ -67,7 +67,7 @@ export default function PageHeader({ tag, title, subtitle, breadcrumb, imageSrc,
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(135deg, rgba(7,15,30,0.68) 0%, rgba(13,31,60,0.55) 60%, rgba(7,15,30,0.65) 100%)',
+            background: 'linear-gradient(135deg, rgba(7,15,30,0.42) 0%, rgba(13,31,60,0.32) 60%, rgba(7,15,30,0.40) 100%)',
             zIndex: 1,
           }}
         />

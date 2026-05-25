@@ -70,7 +70,7 @@ export default function InfoPageLayout({
           {/* How we help */}
           <div className="reveal delay-300" style={{ background: 'rgba(200,160,53,0.07)', border: '1px solid rgba(200,160,53,0.22)', borderRadius: '16px', padding: '28px', marginBottom: '28px' }}>
             <h2 style={{ color: 'var(--navy)', fontWeight: 800, fontSize: '1.3rem', marginBottom: '18px' }}>
-              <span style={{ color: 'var(--gold)' }}>איך אברהם דסה עוזר לכם?</span>
+              <span style={{ color: 'var(--gold)' }}>איך אנחנו נכנסים לתמונה?</span>
             </h2>
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {howHelp.map(item => (

@@ -29,7 +29,7 @@ export default function ContactPage() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '40px' }}>
               <ContactCard icon={<PhoneIcon size={22} color="#c8a035" strokeWidth={1.8} />} title="טלפון" value="052-879-6188" href="tel:0528796188" />
-              <ContactCard icon={<MailIcon size={22} color="#c8a035" strokeWidth={1.8} />} title="מייל" value="avramdasa@gmail.com" href="mailto:avramdasa@gmail.com" />
+              <ContactCard icon={<MailIcon size={22} color="#c8a035" strokeWidth={1.8} />} title="מייל" value="avramdasa777@gmail.com" href="mailto:avramdasa777@gmail.com" />
               <ContactCard icon={<MessageIcon size={22} color="#c8a035" strokeWidth={1.8} />} title="וואטסאפ" value="שלח הודעה" href="https://wa.me/972528796188" />
             </div>
 

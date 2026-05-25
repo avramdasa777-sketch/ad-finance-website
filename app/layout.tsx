@@ -50,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "url": "https://ad-finance.co.il",
               "description": "ייעוץ פיננסי אישי — פנסיה, ביטוח, השקעות",
               "telephone": "+972528796188",
-              "email": "avramdasa@gmail.com",
+              "email": "avramdasa777@gmail.com",
               "address": {
                 "@type": "PostalAddress",
                 "addressCountry": "IL"
