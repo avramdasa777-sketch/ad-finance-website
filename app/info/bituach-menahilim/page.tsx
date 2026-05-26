@@ -32,7 +32,7 @@ export default function BituachMenahilimPage() {
         'ייעוץ מותאם אישית לפי המצב הספציפי שלכם',
       ]}
       disclaimer="ביטוח מנהלים כולל מרכיב ביטוחי. פנו ליועץ פיננסי לפני שינוי או ביטול פוליסה."
-      videoSrc="/videos/info-banner-2.mp4"
+      videoSrc="/videos/info-banner-3.mp4"
     />
   );
 }

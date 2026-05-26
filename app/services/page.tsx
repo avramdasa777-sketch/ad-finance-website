@@ -47,7 +47,7 @@ export default function ServicesPage() {
       <section style={{ padding: '80px 24px', background: 'var(--cream)' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '32px' }}>
           {services.map((s, i) => (
-            <div key={s.href} className={`card-glass reveal delay-${(i + 1) * 100}`} style={{ padding: '40px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px', alignItems: 'center' }}>
+            <div key={s.href} className={`card-glass ${i % 2 === 0 ? 'reveal-left' : 'reveal-right'} delay-${(i + 1) * 100}`} style={{ padding: '40px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px', alignItems: 'center' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
                   <div style={{ width: '52px', height: '52px', background: `linear-gradient(135deg, ${s.color}, var(--navy-light))`, borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', boxShadow: '0 4px 16px rgba(13,31,60,0.15)' }}>

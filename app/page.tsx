@@ -175,15 +175,14 @@ export default function HomePage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px' }}>
             {processSteps.map((step, i) => (
               <div key={step.num} className={`reveal delay-${(i + 1) * 150}`} style={{ position: 'relative' }}>
-                <div style={{
+                <div className="process-step-card" style={{
                   background: 'rgba(255,255,255,0.04)',
                   border: '1px solid rgba(200,160,53,0.15)',
                   borderRadius: '20px',
                   padding: '36px 32px',
                   height: '100%',
-                  transition: 'all 0.3s ease',
                 }}>
-                  <div style={{
+                  <div className="step-num" style={{
                     fontSize: '3.5rem',
                     fontWeight: 900,
                     lineHeight: 1,
@@ -217,12 +216,12 @@ export default function HomePage() {
       <section style={{ padding: 'clamp(60px, 8vw, 100px) 20px', background: 'var(--navy-deep)', position: 'relative', overflow: 'hidden' }}>
         {/* Video background */}
         <video
-          autoPlay muted loop playsInline aria-hidden="true"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5, zIndex: 0 }}
+          autoPlay muted loop playsInline preload="auto" aria-hidden="true"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.28, zIndex: 0 }}
         >
           <source src="/videos/crypto-trading.mp4" type="video/mp4" />
         </video>
-        <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(7,15,30,0.62) 0%, rgba(13,31,60,0.52) 100%)', zIndex: 1 }} />
+        <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(7,15,30,0.88) 0%, rgba(13,31,60,0.82) 100%)', zIndex: 1 }} />
 
         <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
           <div className="reveal" style={{ textAlign: 'center', marginBottom: '60px' }}>

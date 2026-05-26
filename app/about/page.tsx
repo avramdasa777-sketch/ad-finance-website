@@ -56,8 +56,8 @@ export default function AboutPage() {
                   { Icon: StarIcon,   title: 'מקצועיות',    desc: 'ידע מעמיק, עדכון שוטף ועמידה בסטנדרטים הגבוהים ביותר של הרגולציה.' },
                   { Icon: HeartIcon,  title: 'שירות אישי',  desc: 'כל לקוח הוא עולם ומלואו — ייעוץ שמתחיל מהקשבה ולא מוצרים.' },
                   { Icon: LockIcon,   title: 'אחריות',       desc: 'לוקח אחריות מלאה על הייעוץ — ועומד מאחורי כל המלצה שניתנת.' },
-                ].map(v => (
-                  <div key={v.title} className="card-glass" style={{ padding: '18px 20px', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                ].map((v, i) => (
+                  <div key={v.title} className={`card-glass reveal delay-${i * 100}`} style={{ padding: '18px 20px', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
                     <div style={{ width: '40px', height: '40px', flexShrink: 0, background: 'linear-gradient(135deg, var(--navy), var(--navy-light))', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <v.Icon size={18} color="#c8a035" strokeWidth={1.8} />
                     </div>

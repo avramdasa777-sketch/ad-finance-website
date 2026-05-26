@@ -115,29 +115,29 @@ body {
 /* ── SCROLL REVEAL SYSTEM ──────────────────────────────────────── */
 .reveal {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(52px) scale(0.97);
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
 
 .reveal-left {
   opacity: 0;
-  transform: translateX(-40px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateX(-48px) scale(0.97);
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-left.visible { opacity: 1; transform: translateX(0) scale(1); }
 
 .reveal-right {
   opacity: 0;
-  transform: translateX(40px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateX(48px) scale(0.97);
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.reveal-right.visible { opacity: 1; transform: translateX(0); }
+.reveal-right.visible { opacity: 1; transform: translateX(0) scale(1); }
 
 .reveal-scale {
   opacity: 0;
-  transform: scale(0.92);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: scale(0.88);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal-scale.visible { opacity: 1; transform: scale(1); }
 
@@ -229,12 +229,12 @@ body {
   border: 1px solid rgba(200,160,53,0.15);
   border-radius: var(--radius-lg);
   box-shadow: 0 4px 24px rgba(13,31,60,0.06);
-  transition: var(--transition);
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.32s ease;
 }
 .card-glass:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-gold), 0 12px 40px rgba(13,31,60,0.1);
-  border-color: rgba(200,160,53,0.4);
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: var(--shadow-gold), 0 16px 48px rgba(13,31,60,0.12);
+  border-color: rgba(200,160,53,0.45);
 }
 
 .card-dark {
@@ -450,6 +450,58 @@ body {
   footer > div:first-child > div > div:first-child {
     grid-column: span 1 !important;
   }
+}
+
+/* ── SECTIONS GRID (2x2 responsive) ───────────────────────────── */
+.sections-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+@media (max-width: 640px) {
+  .sections-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── NUMBERED CARDS ────────────────────────────────────────────── */
+.numbered-card {
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.numbered-card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  box-shadow: var(--shadow-gold), 0 16px 48px rgba(13,31,60,0.12) !important;
+  border-color: rgba(200,160,53,0.45) !important;
+}
+.card-num-text {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.numbered-card:hover .card-num-text {
+  color: rgba(200,160,53,0.18) !important;
+  transform: scale(1.08) translateY(-4px);
+}
+
+/* ── PROCESS STEP CARDS ────────────────────────────────────────── */
+.process-step-card {
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+}
+.process-step-card:hover {
+  transform: translateY(-10px) !important;
+  background: rgba(255,255,255,0.08) !important;
+  border-color: rgba(200,160,53,0.45) !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(200,160,53,0.1) !important;
+}
+.step-num {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
+}
+.process-step-card:hover .step-num {
+  background: linear-gradient(135deg, rgba(200,160,53,0.85), rgba(232,200,74,0.55)) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  transform: scale(1.12) translateY(-4px);
 }
 
 /* ── REDUCED MOTION ────────────────────────────────────────────── */

@@ -32,7 +32,7 @@ export default function NihulTikkimPage() {
         'ייעוץ על שילוב עם מכשירים פיננסיים אחרים',
       ]}
       disclaimer="ניהול תיקי השקעות מתבצע על ידי גוף ניהול תיקים מורשה. ביצועי העבר אינם מבטיחים תשואה עתידית."
-      videoSrc="/videos/info-banner-2.mp4"
+      videoSrc="/videos/crypto-trading.mp4"
     />
   );
 }

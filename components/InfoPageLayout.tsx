@@ -42,13 +42,19 @@ export default function InfoPageLayout({
           </div>
 
           {/* Key Sections */}
-          <div className="reveal delay-100" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px', marginBottom: '48px' }}>
+          <div className="sections-grid" style={{ marginBottom: '48px' }}>
             {sections.map((s, i) => (
-              <div key={i} className="card-glass" style={{ padding: '24px 22px' }}>
-                <div style={{ width: '32px', height: '32px', background: 'rgba(200,160,53,0.12)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
-                  <span style={{ color: 'var(--gold)', fontWeight: 700, fontSize: '14px' }}>{i + 1}</span>
+              <div key={i} className={`numbered-card card-glass reveal delay-${i * 100}`} style={{ padding: '28px 26px', position: 'relative', overflow: 'hidden' }}>
+                <div className="card-num-text" style={{
+                  position: 'absolute', top: '10px', left: '16px',
+                  fontSize: '4.5rem', fontWeight: 900, lineHeight: 1,
+                  color: 'rgba(200,160,53,0.07)',
+                  userSelect: 'none', pointerEvents: 'none',
+                }}>
+                  {String(i + 1).padStart(2, '0')}
                 </div>
-                <h3 style={{ color: 'var(--navy)', fontWeight: 700, fontSize: '1rem', marginBottom: '8px' }}>{s.title}</h3>
+                <div style={{ width: '36px', height: '3px', background: 'linear-gradient(90deg, var(--gold), var(--gold-light))', borderRadius: '2px', marginBottom: '14px' }} />
+                <h3 style={{ color: 'var(--navy)', fontWeight: 700, fontSize: '1rem', marginBottom: '10px' }}>{s.title}</h3>
                 <p style={{ color: 'var(--text-mid)', fontSize: '14px', lineHeight: 1.7 }}>{s.content}</p>
               </div>
             ))}
