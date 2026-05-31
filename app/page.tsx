@@ -273,13 +273,12 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
             {infoLinks.map((item, i) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={`info-link-card-dark reveal delay-${Math.min((i + 1) * 80, 600)}`}
-                style={{ flex: '1 1 calc(25% - 16px)', minWidth: '220px', maxWidth: 'calc(25% - 12px)' }}
               >
                 <div style={{
                   width: '42px', height: '42px', flexShrink: 0,
