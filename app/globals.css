@@ -295,6 +295,11 @@ body {
   box-shadow: 0 8px 30px rgba(0,0,0,0.2);
 }
 
+.info-link-item {
+  flex: 1 1 220px;
+  max-width: calc(25% - 12px);
+}
+
 .service-card {
   background: #ffffff;
   border: 1.5px solid rgba(13,31,60,0.07);
@@ -438,6 +443,10 @@ body {
   /* Ensure grid columns collapse properly on very small screens */
   .info-link-card-dark {
     padding: 14px 16px !important;
+  }
+  .info-link-item {
+    flex: 0 0 100%;
+    max-width: 100%;
   }
 
   /* Buttons: full-width stack on mobile */
