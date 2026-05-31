@@ -4,7 +4,7 @@ import HeroSection from '@/components/HeroSection';
 import {
   UsersIcon, ListIcon, ClockIcon, CheckCircleIcon,
   PensionIcon, BriefcaseIcon, GraduationIcon,
-  PiggyBankIcon, CoinsIcon, DocumentIcon, FolderIcon, RefreshIcon,
+  PiggyBankIcon, CoinsIcon, DocumentIcon, FolderIcon,
   ChevronLeftIcon, PhoneIcon,
 } from '@/components/Icons';
 
@@ -68,7 +68,6 @@ const infoLinks = [
   { href: '/info/kupat-gemel-hashkaa',    title: 'קופת גמל להשקעה',      Icon: CoinsIcon,      desc: 'גמישות ומסלולי השקעה' },
   { href: '/info/polisa-hisachon',        title: 'פוליסת חיסכון',         Icon: DocumentIcon,   desc: 'חיסכון בביטוח חיים' },
   { href: '/info/nihul-tikkim',           title: 'ניהול תיקים',           Icon: FolderIcon,     desc: 'ניהול תיק השקעות אישי' },
-  { href: '/info/hashkaot-alternativiot', title: 'השקעות אלטרנטיביות',   Icon: RefreshIcon,    desc: 'מעבר לשוק ההון המסורתי' },
 ];
 
 const processSteps = [
@@ -274,12 +273,13 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '16px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>
             {infoLinks.map((item, i) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={`info-link-card-dark reveal delay-${Math.min((i + 1) * 80, 600)}`}
+                style={{ flex: '1 1 calc(25% - 16px)', minWidth: '220px', maxWidth: 'calc(25% - 12px)' }}
               >
                 <div style={{
                   width: '42px', height: '42px', flexShrink: 0,
@@ -329,4 +329,4 @@ export default function HomePage() {
       </section>
     </>
   );
-}
+}                                                                                          
