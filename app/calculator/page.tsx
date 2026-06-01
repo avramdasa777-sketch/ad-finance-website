@@ -34,22 +34,27 @@ function calcCompound(
 ): YearRow[] {
   const rows: YearRow[] = [];
   let balance = initial;
+  const monthlyRate = annualRate / 100 / 12;
+  const depositFeeRate = treasuryFeeRate / 100; // דמי ניהול מהפקדה — נגבים מכל הפקדה
+  const accumFeeRate = mgmtFeeRate / 100;        // דמי ניהול מהצבירה — נגבים מהיתרה השנתית
+
   for (let y = 1; y <= years; y++) {
     const start = balance;
-    const yearContrib = monthly * 12;
-    // Add contributions monthly, apply monthly rate
     let b = balance;
-    const monthlyRate = annualRate / 100 / 12;
+    const yearTreasuryFee = monthly * 12 * depositFeeRate; // % מסך ההפקדות השנתיות
+
+    // הפקדה חודשית נטו (אחרי ניכוי דמי ניהול מהפקדה) + ריבית חודשית
     for (let m = 0; m < 12; m++) {
-      b += monthly;
+      b += monthly * (1 - depositFeeRate);
       b *= (1 + monthlyRate);
     }
     const grossEnd = b;
-    const interest = grossEnd - start - yearContrib;
-    const mgmtFee = grossEnd * (mgmtFeeRate / 100);
-    const treasuryFee = grossEnd * (treasuryFeeRate / 100);
-    const endBalance = grossEnd - mgmtFee - treasuryFee;
-    rows.push({ year: y, startBalance: start, contribution: yearContrib, interest, mgmtFee, treasuryFee, endBalance });
+    const yearContrib = monthly * 12;
+    const interest = grossEnd - start - yearContrib * (1 - depositFeeRate);
+    const mgmtFee = grossEnd * accumFeeRate; // דמי ניהול מהצבירה — % מהיתרה בסוף השנה
+    const endBalance = grossEnd - mgmtFee;
+
+    rows.push({ year: y, startBalance: start, contribution: yearContrib, interest, mgmtFee, treasuryFee: yearTreasuryFee, endBalance });
     balance = endBalance;
   }
   return rows;
@@ -253,24 +258,41 @@ export default function CalculatorPage() {
   const [treasuryFee, setTreasuryFee] = useState('0');
   const [showTable, setShowTable] = useState(false);
 
+  const yearsNum = Math.min(Math.max(Number(years) || 1, 1), 50);
+
   const rows = useMemo(() =>
     calcCompound(
       Number(initial) || 0,
       Number(monthly) || 0,
       Number(rate) || 0,
-      Math.min(Math.max(Number(years) || 1, 1), 50),
+      yearsNum,
       Number(mgmtFee) || 0,
       Number(treasuryFee) || 0,
     ),
-    [initial, monthly, rate, years, mgmtFee, treasuryFee]
+    [initial, monthly, rate, yearsNum, mgmtFee, treasuryFee]
+  );
+
+  // חישוב ללא דמי ניהול בכלל — להשוואה
+  const rowsNoFees = useMemo(() =>
+    calcCompound(
+      Number(initial) || 0,
+      Number(monthly) || 0,
+      Number(rate) || 0,
+      yearsNum,
+      0,
+      0,
+    ),
+    [initial, monthly, rate, yearsNum]
   );
 
   const lastRow = rows[rows.length - 1];
+  const lastRowNoFees = rowsNoFees[rowsNoFees.length - 1];
   const totalContrib = rows.reduce((s, r) => s + r.contribution, 0) + (Number(initial) || 0);
   const totalInterest = rows.reduce((s, r) => s + r.interest, 0);
   const totalMgmt = rows.reduce((s, r) => s + r.mgmtFee, 0);
   const totalTreasury = rows.reduce((s, r) => s + r.treasuryFee, 0);
-  const netGain = lastRow.endBalance - totalContrib;
+  // אבדן רווח = ההפרש האמיתי בין חיסכון ללא דמי ניהול לבין עם, פחות הדמי ניהול ששולמו
+  const lostProfit = (lastRowNoFees.endBalance - lastRow.endBalance) - (totalMgmt + totalTreasury);
 
   const handleReset = () => {
     setInitial('1500'); setMonthly('1500'); setRate('9');
@@ -404,11 +426,11 @@ export default function CalculatorPage() {
                   <ResultCard label="רווח" sublabel="הרווח שהרווחנו בזכות הריבית דריבית" value={fmt(totalInterest)} />
                   <ResultCard label="דמי ניהול מהצבירה" sublabel="סך כל דמי ניהול מהצבירה שנגבו" value={fmt(totalMgmt)} />
                   <ResultCard label="דמי ניהול מהפקדה" sublabel="סך כל דמי ניהול מהפקדה שנגבו" value={fmt(totalTreasury)} />
-                  <ResultCard label="אבדן רווח עקב דמי ניהול" sublabel="סך כל הכסף שיכול היה להיות לנו" value={fmt(totalMgmt + totalTreasury)} />
+                  <ResultCard label="אבדן רווח עקב דמי ניהול" sublabel="הרווח שהלך לאיבוד בגלל אפקט הריבית דריבית על הדמי ניהול" value={fmt(lostProfit)} />
                   <ResultCard
                     label="סכום חיסכון עתידי ללא דמי ניהול"
-                    sublabel="סכום החיסכון בסוף ההפקדה לפי נכי הצבעות"
-                    value={fmt(lastRow.endBalance + totalMgmt + totalTreasury)}
+                    sublabel="סכום החיסכון בסוף ההפקדה אילו לא היו דמי ניהול"
+                    value={fmt(lastRowNoFees.endBalance)}
                   />
                   <ResultCard
                     label="סכום חיסכון עתידי בניכוי הוצאות"
