@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import PageHeader from '@/components/PageHeader';
 import CTASection from '@/components/CTASection';
-import { HeartIcon, ShieldIcon, CheckCircleIcon, UsersIcon, LockIcon } from '@/components/Icons';
+import { HeartIcon, ShieldIcon, CheckCircleIcon, LockIcon } from '@/components/Icons';
 
 export const metadata: Metadata = {
   title: 'צ׳ק אפ ביטוחים | שירותי החברה | A.D Finance',
@@ -27,12 +27,6 @@ const coverageTypes = [
     desc: 'בחינת כיסויי ניתוחים, תרופות, בדיקות ורופאים מומחים — ומוודאים שאתם לא משלמים על מה שכבר כלול בביטוח הלאומי.',
     color: '#0d1f3c',
   },
-  {
-    Icon: UsersIcon,
-    title: 'ביטוח סיעוד',
-    desc: 'הערכת הכיסוי לטיפול סיעודי עתידי — ביטוח שרוב האנשים לא חושבים עליו עד שהם צריכים אותו.',
-    color: '#1a3a5c',
-  },
 ];
 
 const results = [
@@ -52,7 +46,7 @@ export default function InsurancePage() {
         title="צ׳ק אפ ביטוחים"
         subtitle="בדיקה מקיפה ומעמיקה של כלל הביטוחים שלך — כיסויים, כפילויות, ופערים שעלולים לעלות ביוקר"
         breadcrumb={{ href: '/services', label: 'שירותי החברה' }}
-        imageSrc="/images/insurance.jpg"
+        imageSrc="/images/pension.jpg"
       />
 
       <section style={{ padding: '80px 24px', background: 'var(--cream)' }}>
@@ -68,13 +62,13 @@ export default function InsurancePage() {
               רוב האנשים אוספים ביטוחים לאורך השנים מסוכנים שונים — ומגיעים למצב שבו הם משלמים פי שניים על אותו כיסוי, או לחלופין, נמצאים עם פערים גדולים שיתגלו רק כשיצטרכו להגיש תביעה.
             </p>
             <p style={{ color: 'var(--text-mid)', lineHeight: 1.85, fontSize: '1.02rem' }}>
-              צ׳ק אפ ביטוחי הוא בדיקה יסודית של כל הכיסויים שיש לכם — ביטוח חיים, אובדן כושר עבודה, בריאות, סיעוד ועוד. המטרה: לוודא שאתם מכוסים נכון, לא משלמים כפילויות, ולא נמצאים עם פערים שעלולים לעלות ביוקר.
+              צ׳ק אפ ביטוחי הוא בדיקה יסודית של כל הכיסויים שיש לכם — ביטוח חיים, אובדן כושר עבודה, בריאות ועוד. המטרה: לוודא שאתם מכוסים נכון, לא משלמים כפילויות, ולא נמצאים עם פערים שעלולים לעלות ביוקר.
             </p>
           </div>
 
           {/* Coverage types */}
           <div
-            style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', marginBottom: '56px' }}
+            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px', marginBottom: '56px' }}
           >
             {coverageTypes.map(({ Icon, title, desc, color }, i) => (
               <div key={title} className={`card-glass reveal delay-${i * 100}`} style={{ padding: '26px' }}>

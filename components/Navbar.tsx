@@ -19,14 +19,21 @@ const infoPages = [
   { href: '/info/nihul-tikkim',           label: 'ניהול תיקים' },
 ];
 
+const calculators = [
+  { href: '/calculator/pension', label: 'מחשבון פנסיה' },
+  { href: '/calculator',         label: 'מחשבון רווחים' },
+];
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
+  const [calcOpen, setCalcOpen] = useState(false);
   const pathname = usePathname();
   const servicesRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
+  const calcRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -38,6 +45,7 @@ export default function Navbar() {
     setMobileOpen(false);
     setServicesOpen(false);
     setInfoOpen(false);
+    setCalcOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -47,6 +55,9 @@ export default function Navbar() {
       }
       if (infoRef.current && !infoRef.current.contains(e.target as Node)) {
         setInfoOpen(false);
+      }
+      if (calcRef.current && !calcRef.current.contains(e.target as Node)) {
+        setCalcOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClick);
@@ -177,7 +188,41 @@ export default function Navbar() {
               )}
             </div>
 
-            <NavLink href="/calculator" label="מחשבון רווחים" active={isActive('/calculator')} />
+            {/* Calculators Dropdown */}
+            <div ref={calcRef} style={{ position: 'relative' }}>
+              <button
+                onClick={() => { setCalcOpen(!calcOpen); setServicesOpen(false); setInfoOpen(false); }}
+                aria-expanded={calcOpen}
+                aria-haspopup="true"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  color: isActive('/calculator') ? '#c8a035' : 'rgba(255,255,255,0.85)',
+                  fontFamily: 'Heebo, sans-serif',
+                  fontWeight: 500,
+                  fontSize: '15px',
+                  padding: '8px 14px',
+                  borderRadius: '8px',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.06)')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+              >
+                מחשבונים
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+                  style={{ transform: calcOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </button>
+              {calcOpen && (
+                <Dropdown items={calculators} />
+              )}
+            </div>
+
             <NavLink href="/contact" label="יצירת קשר" active={isActive('/contact')} />
           </div>
 
@@ -250,7 +295,10 @@ export default function Navbar() {
               {infoPages.map(p => <MobileNavLink key={p.href} href={p.href} label={p.label} sub />)}
             </MobileSection>
 
-            <MobileNavLink href="/calculator" label="מחשבון רווחים" />
+            <MobileSection label="מחשבונים">
+              {calculators.map(c => <MobileNavLink key={c.href} href={c.href} label={c.label} sub />)}
+            </MobileSection>
+
             <MobileNavLink href="/contact" label="יצירת קשר" />
             <div style={{ padding: '12px 0 4px' }}>
               <Link

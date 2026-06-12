@@ -93,9 +93,10 @@ export default function Footer() {
               {[
                 { href: '/',         label: 'עמוד הבית' },
                 { href: '/about',    label: 'אודות' },
-                { href: '/contact',  label: 'יצירת קשר' },
-                { href: '/privacy',  label: 'מדיניות פרטיות' },
-                { href: '/terms',    label: 'תקנון שימוש' },
+                { href: '/contact',       label: 'יצירת קשר' },
+                { href: '/privacy',       label: 'מדיניות פרטיות' },
+                { href: '/accessibility', label: 'הצהרת נגישות' },
+                { href: '/terms',         label: 'תקנון שימוש' },
               ].map(item => (
                 <li key={item.href}>
                   <Link href={item.href} style={{ color: 'rgba(255,255,255,0.65)', textDecoration: 'none', fontSize: '14px', transition: 'color 0.2s' }}
@@ -126,6 +127,11 @@ export default function Footer() {
               onMouseEnter={e => (e.currentTarget.style.color = '#c8a035')}
               onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}>
               פרטיות
+            </Link>
+            <Link href="/accessibility" style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', textDecoration: 'none', transition: 'color 0.2s' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#c8a035')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}>
+              נגישות
             </Link>
             <Link href="/terms" style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', textDecoration: 'none', transition: 'color 0.2s' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#c8a035')}

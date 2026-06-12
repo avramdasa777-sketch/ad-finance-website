@@ -304,6 +304,11 @@ export default function CalculatorPage() {
       {/* Header */}
       <section style={{ padding: '48px 20px 0', textAlign: 'center' }}>
         <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+          <img
+            src="/images/logo.png"
+            alt="A.D Finance"
+            style={{ width: '72px', height: '72px', objectFit: 'contain', margin: '0 auto 12px', display: 'block' }}
+          />
           <div className="section-tag">כלים פיננסיים</div>
           <h1 style={{
             fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, color: '#ffffff',

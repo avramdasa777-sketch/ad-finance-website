@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import AccessibilityWidget from '@/components/AccessibilityWidget';
 import ScrollRevealInit from '@/components/ScrollRevealInit';
+import PageLoader from '@/components/PageLoader';
 
 export const metadata: Metadata = {
   title: 'A.D Finance | ייעוץ פיננסי אישי — אברהם דסה',
@@ -65,6 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-full flex flex-col" style={{ background: 'var(--cream)' }}>
+        <PageLoader />
         <a href="#main-content" className="skip-link">דלג לתוכן הראשי</a>
         <Navbar />
         <main id="main-content" className="flex-1">
