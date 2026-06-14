@@ -56,7 +56,7 @@ export default function InsurancePage() {
       />
 
       <section style={{ padding: '80px 24px', background: 'var(--cream)' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
 
           {/* Intro */}
           <div className="reveal" style={{ marginBottom: '56px' }}>
@@ -74,7 +74,8 @@ export default function InsurancePage() {
 
           {/* Coverage types */}
           <div
-            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px', marginBottom: '56px' }}
+            className="grid-cards-4"
+            style={{ marginBottom: '56px' }}
           >
             {coverageTypes.map(({ Icon, title, desc, color }, i) => (
               <div key={title} className={`card-glass reveal delay-${i * 100}`} style={{ padding: '26px' }}>

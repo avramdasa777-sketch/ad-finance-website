@@ -19,7 +19,7 @@ export default function HashkaotAlternativiotPage() {
       />
 
       <section style={{ padding: '80px 24px', background: 'var(--cream)' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
 
           {/* Important Notice */}
           <div className="reveal" style={{
@@ -48,7 +48,7 @@ export default function HashkaotAlternativiotPage() {
             </p>
           </div>
 
-          <div className="reveal delay-200" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', marginBottom: '40px' }}>
+          <div className="reveal delay-200 grid-cards-4" style={{ marginBottom: '40px' }}>
             {[
               { title: 'נדל״ן', desc: 'השקעה ישירה בנכסים, קרנות נדל״ן (REIT) או פלטפורמות מימון המונים לנדל״ן.', icon: '🏢' },
               { title: 'אשראי פרטי', desc: 'הלוואות לחברות ויחידים מחוץ למערכת הבנקאית — לרוב עם תשואה גבוהה יותר.', icon: '💳' },

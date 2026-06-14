@@ -461,17 +461,36 @@ body {
   }
 }
 
-/* ── SECTIONS GRID (2x2 responsive) ───────────────────────────── */
+/* ── SECTIONS GRID (responsive, ללא "חורים" של כרטיס בודד) ─────── */
 .sections-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
+  gap: 22px;
+}
+@media (min-width: 700px) {
+  .sections-grid { grid-template-columns: repeat(2, 1fr); }
+  /* בדיוק 3 כרטיסיות → שורה אחת מלאה של שלוש (במקום 2+1 עם חור) */
+  .sections-grid:has(> :nth-child(3):last-child) { grid-template-columns: repeat(3, 1fr); }
+  /* 5 כרטיסיות → הכרטיס הבודד האחרון נפרס לרוחב מלא (בלי חור) */
+  .sections-grid:has(> :nth-child(5):last-child) > :nth-child(5) { grid-column: 1 / -1; }
+}
+
+/* ── CARD GRIDS (שורות מלאות בכל רוחב מסך, בלי כרטיס יתום) ──────── */
+.grid-cards-4 {
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 20px;
 }
-@media (max-width: 640px) {
-  .sections-grid {
-    grid-template-columns: 1fr;
-  }
+@media (min-width: 560px)  { .grid-cards-4 { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .grid-cards-4 { grid-template-columns: repeat(4, 1fr); } }
+
+.grid-cards-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
 }
+@media (min-width: 560px) { .grid-cards-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .grid-cards-3 { grid-template-columns: repeat(3, 1fr); } }
 
 /* ── NUMBERED CARDS ────────────────────────────────────────────── */
 .numbered-card {

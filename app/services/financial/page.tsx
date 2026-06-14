@@ -54,7 +54,7 @@ export default function FinancialPlanningPage() {
       />
 
       <section style={{ padding: '80px 24px', background: 'var(--cream)' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
 
           {/* Intro */}
           <div className="reveal" style={{ marginBottom: '56px' }}>
@@ -72,7 +72,8 @@ export default function FinancialPlanningPage() {
 
           {/* Pillars */}
           <div
-            style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', marginBottom: '56px' }}
+            className="grid-cards-4"
+            style={{ marginBottom: '56px' }}
           >
             {pillars.map(({ Icon, title, desc, color }, i) => (
               <div key={title} className={`card-glass reveal delay-${i * 100}`} style={{ padding: '26px' }}>
@@ -146,7 +147,7 @@ export default function FinancialPlanningPage() {
             <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#ffffff', marginBottom: '20px' }}>
               למי מתאים תכנון פיננסי?
             </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px' }}>
+            <div className="grid-cards-3" style={{ gap: '12px' }}>
               {[
                 'צעירים שרוצים להתחיל לחסוך ולהשקיע נכון',
                 'זוגות שמתכננים לקנות דירה ורוצים להבין מה הם יכולים להרשות לעצמם',

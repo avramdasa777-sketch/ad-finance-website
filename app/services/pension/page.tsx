@@ -59,7 +59,7 @@ export default function PensionCheckPage() {
       />
 
       <section style={{ padding: '80px 24px', background: 'var(--cream)' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
 
           {/* Intro */}
           <div className="reveal" style={{ marginBottom: '56px' }}>
@@ -77,7 +77,8 @@ export default function PensionCheckPage() {
 
           {/* Areas grid */}
           <div
-            style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', marginBottom: '56px' }}
+            className="grid-cards-4"
+            style={{ marginBottom: '56px' }}
           >
             {areas.map(({ Icon, title, desc, color }, i) => (
               <div key={title} className={`card-glass reveal delay-${i * 100}`} style={{ padding: '26px' }}>
@@ -136,7 +137,7 @@ export default function PensionCheckPage() {
             <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#ffffff', marginBottom: '24px' }}>
               מה הבדיקה כוללת?
             </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px' }}>
+            <div className="grid-cards-3" style={{ gap: '14px' }}>
               {checklistItems.map(item => (
                 <div key={item} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', color: 'rgba(255,255,255,0.75)', fontSize: '14px', lineHeight: 1.6 }}>
                   <span style={{ color: '#c8a035', flexShrink: 0, marginTop: '2px' }}>✓</span>

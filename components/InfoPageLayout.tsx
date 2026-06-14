@@ -32,7 +32,7 @@ export default function InfoPageLayout({
       />
 
       <section style={{ padding: 'clamp(48px, 6vw, 80px) 20px', background: 'var(--cream)' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
 
           {/* Intro */}
           <div className="reveal" style={{ marginBottom: '48px' }}>
