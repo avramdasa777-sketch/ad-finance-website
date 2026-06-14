@@ -108,7 +108,7 @@ export default function Navbar() {
                 A.D Finance
               </div>
               <div style={{ color: '#c8a035', fontSize: '10px', fontWeight: 500, letterSpacing: '1.5px', textTransform: 'uppercase' }}>
-                ייעוץ פיננסי
+                תכנון פנסיוני ופיננסי
               </div>
             </div>
           </Link>

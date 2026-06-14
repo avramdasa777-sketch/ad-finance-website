@@ -23,7 +23,7 @@ export default function Footer() {
               />
               <div>
                 <div style={{ color: '#ffffff', fontWeight: 800, fontSize: '18px', lineHeight: 1.1 }}>A.D Finance</div>
-                <div style={{ color: '#c8a035', fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase' }}>ייעוץ פיננסי</div>
+                <div style={{ color: '#c8a035', fontSize: '10px', letterSpacing: '1.5px', textTransform: 'uppercase' }}>תכנון פנסיוני ופיננסי</div>
               </div>
             </div>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', lineHeight: 1.7, marginBottom: '20px', maxWidth: '240px' }}>

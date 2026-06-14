@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import PageHeader from '@/components/PageHeader';
 import CTASection from '@/components/CTASection';
-import { HeartIcon, ShieldIcon, CheckCircleIcon, LockIcon } from '@/components/Icons';
+import { HeartIcon, ShieldIcon, CheckCircleIcon, LockIcon, UsersIcon } from '@/components/Icons';
 
 export const metadata: Metadata = {
   title: 'צ׳ק אפ ביטוחים | שירותי החברה | A.D Finance',
@@ -26,6 +26,12 @@ const coverageTypes = [
     title: 'ביטוח בריאות',
     desc: 'בחינת כיסויי ניתוחים, תרופות, בדיקות ורופאים מומחים — ומוודאים שאתם לא משלמים על מה שכבר כלול בביטוח הלאומי.',
     color: '#0d1f3c',
+  },
+  {
+    Icon: UsersIcon,
+    title: 'ביטוח אמבולטורי',
+    desc: 'התייעצות עם רופאים מומחים, אשפוז בית, ליווי רפואי ובדיקות — כיסוי לטיפולים שאינם דורשים אשפוז מלא בבית החולים.',
+    color: '#16335a',
   },
 ];
 
@@ -59,7 +65,7 @@ export default function InsurancePage() {
               האם הביטוחים שלך באמת מגנים עליך?
             </h2>
             <p style={{ color: 'var(--text-mid)', lineHeight: 1.85, fontSize: '1.02rem', marginBottom: '16px' }}>
-              רוב האנשים אוספים ביטוחים לאורך השנים מסוכנים שונים — ומגיעים למצב שבו הם משלמים פי שניים על אותו כיסוי, או לחלופין, נמצאים עם פערים גדולים שיתגלו רק כשיצטרכו להגיש תביעה.
+              רוב האנשים אוספים ביטוחים לאורך השנים מסוגים שונים — ומגיעים למצב שבו הם משלמים פי שניים על אותו כיסוי, או לחלופין מחזיקים בביטוחים שכבר לא באמת מתאימים לצרכים שלהם כיום, עם פערים שיתגלו רק כשיצטרכו להגיש תביעה.
             </p>
             <p style={{ color: 'var(--text-mid)', lineHeight: 1.85, fontSize: '1.02rem' }}>
               צ׳ק אפ ביטוחי הוא בדיקה יסודית של כל הכיסויים שיש לכם — ביטוח חיים, אובדן כושר עבודה, בריאות ועוד. המטרה: לוודא שאתם מכוסים נכון, לא משלמים כפילויות, ולא נמצאים עם פערים שעלולים לעלות ביוקר.

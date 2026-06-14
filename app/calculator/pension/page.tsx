@@ -373,7 +373,7 @@ function CalcInput({
           }}
         />
         {suffix && (
-          <span style={{ padding: '0 12px', color: 'rgba(255,255,255,0.45)', fontSize: '14px' }}>{suffix}</span>
+          <span style={{ padding: compact ? '0 7px' : '0 12px', color: 'rgba(255,255,255,0.45)', fontSize: compact ? '13px' : '14px' }}>{suffix}</span>
         )}
       </div>
     </div>
@@ -826,6 +826,13 @@ export default function PensionCalculatorPage() {
           </p>
         </div>
       </section>
+
+      {/* הסתרת חצי ה-spinner של שדות מספר — כדי שהמספרים שמקלידים ייראו במלואם */}
+      <style>{`
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+      `}</style>
     </main>
   );
 }

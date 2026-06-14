@@ -80,7 +80,7 @@ export default function PageLoader() {
           A.D Finance
         </div>
         <div style={{ color: '#c8a035', fontSize: '11px', fontWeight: 500, letterSpacing: '2px', textTransform: 'uppercase', marginTop: '4px' }}>
-          ייעוץ פיננסי
+          תכנון פנסיוני ופיננסי
         </div>
       </div>
 
