@@ -82,7 +82,7 @@ export default function HeroSection() {
 
       {/* Content */}
       <div style={{ position: 'relative', zIndex: 2, maxWidth: '1280px', margin: '0 auto', padding: 'clamp(104px, 12vw, 120px) 20px clamp(56px, 8vw, 80px)', width: '100%' }}>
-        <div style={{ maxWidth: '780px', margin: '0 auto', textAlign: 'center' }}>
+        <div style={{ maxWidth: '880px', margin: '0 auto', textAlign: 'center' }}>
 
           {/* Tag */}
           <div
@@ -108,10 +108,10 @@ export default function HeroSection() {
           <h1
             style={{
               color: '#ffffff',
-              fontSize: 'clamp(2.4rem, 5vw, 3.8rem)',
+              fontSize: 'clamp(2.9rem, 6.4vw, 4.8rem)',
               fontWeight: 900,
-              lineHeight: 1.15,
-              marginBottom: '24px',
+              lineHeight: 1.12,
+              marginBottom: '28px',
               opacity: loaded ? 1 : 0,
               transform: loaded ? 'none' : 'translateY(50px)',
               transition: 'all 0.9s ease 0.2s',
@@ -127,11 +127,11 @@ export default function HeroSection() {
           {/* Subheading */}
           <p
             style={{
-              color: 'rgba(255,255,255,0.72)',
-              fontSize: 'clamp(1rem, 2vw, 1.2rem)',
-              lineHeight: 1.75,
-              marginBottom: '40px',
-              maxWidth: '560px',
+              color: 'rgba(255,255,255,0.75)',
+              fontSize: 'clamp(1.15rem, 2.2vw, 1.45rem)',
+              lineHeight: 1.7,
+              marginBottom: '44px',
+              maxWidth: '640px',
               marginInline: 'auto',
               opacity: loaded ? 1 : 0,
               transform: loaded ? 'none' : 'translateY(40px)',
@@ -187,10 +187,10 @@ export default function HeroSection() {
             <p
               style={{
                 color: '#ffffff',
-                fontSize: '18px',
+                fontSize: 'clamp(18px, 1.7vw, 21px)',
                 fontWeight: 600,
-                lineHeight: 1.9,
-                maxWidth: '560px',
+                lineHeight: 1.85,
+                maxWidth: '640px',
                 letterSpacing: '0.01em',
                 margin: '0 auto',
               }}

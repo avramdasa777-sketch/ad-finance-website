@@ -31,6 +31,7 @@ const FONT_STEPS = [100, 112, 125, 140]; // אחוזי גודל טקסט
 
 export default function AccessibilityWidget() {
   const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false); // הסתרת כפתור הנגישות לצד
   const [active, setActive] = useState<Record<string, boolean>>({});
   const [fontStep, setFontStep] = useState(0);
 
@@ -68,28 +69,73 @@ export default function AccessibilityWidget() {
 
   return (
     <>
-      {/* כפתור עגול — פינה ימנית תחתונה */}
-      <button
-        onClick={() => setOpen(true)}
-        aria-label="פתיחת תפריט נגישות"
-        title="נגישות"
+      {/* קבוצת הכפתור — מחליקה הצידה כשמסתירים */}
+      <div
         style={{
           position: 'fixed', bottom: '28px', right: '28px', zIndex: 940,
-          width: '56px', height: '56px', borderRadius: '50%',
-          background: 'var(--navy)', border: '2px solid var(--gold)', color: 'var(--gold)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
-          boxShadow: '0 6px 24px rgba(0,0,0,0.28)',
-          transition: 'transform 0.25s ease, background 0.25s ease, color 0.25s ease',
+          transition: 'transform 0.4s cubic-bezier(0.4,0,0.2,1)',
+          transform: hidden ? 'translateX(calc(100% + 40px))' : 'translateX(0)',
         }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.color = 'var(--navy-deep)'; e.currentTarget.style.transform = 'scale(1.06)'; }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--navy)'; e.currentTarget.style.color = 'var(--gold)'; e.currentTarget.style.transform = 'scale(1)'; }}
       >
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <circle cx="12" cy="3.6" r="1.7" fill="currentColor" stroke="none" />
-          <path d="M4.5 8c2.4 1.1 5 1.6 7.5 1.6S17.1 9.1 19.5 8" />
-          <path d="M12 9.6V15" />
-          <path d="M8.5 21l3.5-6 3.5 6" />
-        </svg>
+        {/* כפתור עגול */}
+        <button
+          onClick={() => setOpen(true)}
+          aria-label="פתיחת תפריט נגישות"
+          title="נגישות"
+          style={{
+            width: '56px', height: '56px', borderRadius: '50%',
+            background: 'var(--navy)', border: '2px solid var(--gold)', color: 'var(--gold)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+            boxShadow: '0 6px 24px rgba(0,0,0,0.28)',
+            transition: 'transform 0.25s ease, background 0.25s ease, color 0.25s ease',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.color = 'var(--navy-deep)'; e.currentTarget.style.transform = 'scale(1.06)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--navy)'; e.currentTarget.style.color = 'var(--gold)'; e.currentTarget.style.transform = 'scale(1)'; }}
+        >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <circle cx="12" cy="3.6" r="1.7" fill="currentColor" stroke="none" />
+            <path d="M4.5 8c2.4 1.1 5 1.6 7.5 1.6S17.1 9.1 19.5 8" />
+            <path d="M12 9.6V15" />
+            <path d="M8.5 21l3.5-6 3.5 6" />
+          </svg>
+        </button>
+
+        {/* תג X להסתרת הכפתור (פינה פנימית) */}
+        <button
+          onClick={(e) => { e.stopPropagation(); setHidden(true); }}
+          aria-label="הסתר את כפתור הנגישות"
+          title="הסתר"
+          style={{
+            position: 'absolute', top: '-7px', left: '-7px',
+            width: '22px', height: '22px', borderRadius: '50%',
+            background: 'var(--gold)', border: '2px solid var(--navy)', color: 'var(--navy-deep)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+            padding: 0, boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+          }}
+        >
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+        </button>
+      </div>
+
+      {/* ידית להחזרת הכפתור — מופיעה בקצה ימין רק כשהכפתור מוסתר */}
+      <button
+        onClick={() => setHidden(false)}
+        aria-label="הצג את כפתור הנגישות"
+        title="נגישות"
+        style={{
+          position: 'fixed', bottom: '40px', right: 0, zIndex: 939,
+          width: '20px', height: '46px',
+          background: 'var(--navy)', border: '1px solid var(--gold)', borderRight: 'none',
+          borderRadius: '10px 0 0 10px', color: 'var(--gold)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+          boxShadow: '-2px 0 10px rgba(0,0,0,0.2)', padding: 0,
+          transition: 'transform 0.4s cubic-bezier(0.4,0,0.2,1)',
+          transform: hidden ? 'translateX(0)' : 'translateX(100%)',
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--navy-light)')}
+        onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--navy)')}
+      >
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
       </button>
 
       {/* רקע כהה (overlay) — לחיצה סוגרת */}

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import HeroSection from '@/components/HeroSection';
+import LogoMarquee from '@/components/LogoMarquee';
 import {
   UsersIcon, ListIcon, ClockIcon, CheckCircleIcon,
   PensionIcon, BriefcaseIcon, GraduationIcon,
@@ -92,6 +93,8 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+
+      <LogoMarquee />
 
       {/* Services */}
       <section style={{ padding: 'clamp(60px, 8vw, 100px) 20px', background: 'var(--cream)' }}>

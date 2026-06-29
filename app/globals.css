@@ -609,3 +609,52 @@ html.a11y-pause-anim .reveal-scale {
   transition: opacity 0.9s ease;
 }
 .media-video.is-ready { opacity: var(--media-opacity, 0.5); }
+
+/* LOGO MARQUEE (bar logos) */
+.logo-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.logo-marquee::before,
+.logo-marquee::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 70px;
+  z-index: 2;
+  pointer-events: none;
+}
+.logo-marquee::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--white), rgba(255,255,255,0));
+}
+.logo-marquee::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--white), rgba(255,255,255,0));
+}
+.logo-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  gap: 64px;
+  animation: marquee 38s linear infinite;
+}
+.logo-marquee:hover .logo-track {
+  animation-play-state: paused;
+}
+.logo-item {
+  height: 42px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: grayscale(1);
+  opacity: 0.62;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+.logo-item:hover {
+  filter: grayscale(0);
+  opacity: 1;
+}

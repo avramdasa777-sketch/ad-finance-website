@@ -274,7 +274,7 @@ function CalcInput({
           value={value}
           onChange={e => onChange(e.target.value)}
           style={{
-            flex: 1, background: 'none', border: 'none', outline: 'none',
+            flex: 1, minWidth: 0, background: 'none', border: 'none', outline: 'none',
             color: '#ffffff', fontFamily: 'Heebo, sans-serif',
             fontSize: '16px', fontWeight: 500, padding: '12px 14px',
             textAlign: 'right', direction: 'ltr',
@@ -535,7 +535,7 @@ function GoalCalc() {
       <Panel title="נתוני היעד" style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
         <CalcInput label="🎯 סכום היעד" sublabel="כמה אתם רוצים לצבור בסך הכל" value={target} onChange={setTarget} prefix="₪" />
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: '12px' }}>
           <CalcInput label="גיל נוכחי" value={currentAge} onChange={setCurrentAge} suffix="שנים" />
           <CalcInput label="גיל פרישה / יעד" value={retireAge} onChange={setRetireAge} suffix="שנים" />
         </div>
