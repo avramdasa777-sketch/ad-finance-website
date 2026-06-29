@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 
 interface PageHeaderProps {
   tag: string;
@@ -8,9 +9,22 @@ interface PageHeaderProps {
   breadcrumb?: { href: string; label: string };
   imageSrc?: string;
   videoSrc?: string;
+  posterSrc?: string;
 }
 
-export default function PageHeader({ tag, title, subtitle, breadcrumb, imageSrc, videoSrc }: PageHeaderProps) {
+export default function PageHeader({
+  tag, title, subtitle, breadcrumb, imageSrc, videoSrc,
+  posterSrc = '/images/financial.jpg',
+}: PageHeaderProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoReady, setVideoReady] = useState(false);
+
+  // אם הסרטון כבר מוכן לפני שה-handler נקשר
+  useEffect(() => {
+    const v = videoRef.current;
+    if (v && v.readyState >= 3) setVideoReady(true);
+  }, []);
+
   return (
     <section
       style={{
@@ -20,30 +34,36 @@ export default function PageHeader({ tag, title, subtitle, breadcrumb, imageSrc,
         overflow: 'hidden',
       }}
     >
-      {/* Background video */}
+      {/* רקע סרטון — תמיד עם בסיס מותגי + תמונת סטילס שלא נשארים ריקים */}
       {videoSrc && (
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            opacity: 0.42,
-            zIndex: 0,
-          }}
-        >
-          <source src={videoSrc} type="video/mp4" />
-        </video>
+        <>
+          <div className="media-backdrop" aria-hidden="true" />
+          <img
+            src={posterSrc}
+            alt=""
+            aria-hidden="true"
+            className="media-poster"
+            style={{ opacity: videoReady ? 0 : 0.42, transition: 'opacity 0.9s ease' }}
+          />
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+            className={`media-video${videoReady ? ' is-ready' : ''}`}
+            style={{ ['--media-opacity' as string]: '0.42' }}
+            onCanPlay={() => setVideoReady(true)}
+            onLoadedData={() => setVideoReady(true)}
+          >
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+        </>
       )}
 
-      {/* Background image (only when no video) */}
+      {/* רקע תמונה (כשאין סרטון) */}
       {imageSrc && !videoSrc && (
         <img
           src={imageSrc}
@@ -61,7 +81,7 @@ export default function PageHeader({ tag, title, subtitle, breadcrumb, imageSrc,
         />
       )}
 
-      {/* Dark overlay when image or video is present */}
+      {/* שכבת כהות כשיש מדיה */}
       {(imageSrc || videoSrc) && (
         <div
           aria-hidden="true"
@@ -74,7 +94,7 @@ export default function PageHeader({ tag, title, subtitle, breadcrumb, imageSrc,
         />
       )}
 
-      {/* Gold radial glow */}
+      {/* זוהר זהוב דקורטיבי */}
       <div
         aria-hidden="true"
         style={{
@@ -90,7 +110,8 @@ export default function PageHeader({ tag, title, subtitle, breadcrumb, imageSrc,
         }}
       />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 3 }}>
+      {/* תוכן — ממורכז */}
+      <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 3, textAlign: 'center' }}>
         {breadcrumb && (
           <div style={{ marginBottom: '16px' }}>
             <Link
@@ -108,7 +129,7 @@ export default function PageHeader({ tag, title, subtitle, breadcrumb, imageSrc,
         <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 900, color: '#ffffff', marginBottom: '14px' }}>
           {title}
         </h1>
-        <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '1.05rem', maxWidth: '560px', lineHeight: 1.7 }}>
+        <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '1.05rem', maxWidth: '600px', margin: '0 auto', lineHeight: 1.7 }}>
           {subtitle}
         </p>
       </div>

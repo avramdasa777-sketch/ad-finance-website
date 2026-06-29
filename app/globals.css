@@ -543,3 +543,69 @@ body {
     transform: none !important;
   }
 }
+
+/* ── ACCESSIBILITY TOGGLES (תפריט הנגישות) ─────────────────────── */
+/* הפילטר על <html> (ולא על body) כדי לא לשבור אלמנטים position:fixed */
+html.a11y-contrast  { filter: contrast(1.4); }
+html.a11y-grayscale { filter: grayscale(1); }
+html.a11y-contrast.a11y-grayscale { filter: contrast(1.4) grayscale(1); }
+
+html.a11y-links-highlight a {
+  text-decoration: underline !important;
+  text-underline-offset: 3px !important;
+  text-decoration-color: var(--gold) !important;
+}
+
+html.a11y-readable body {
+  letter-spacing: 0.045em !important;
+  word-spacing: 0.09em !important;
+  line-height: 1.95 !important;
+}
+
+/* עצירת אנימציות — וגם נטרול אפקט הגלילה כך שהכל פשוט מוצג */
+html.a11y-pause-anim *,
+html.a11y-pause-anim *::before,
+html.a11y-pause-anim *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+html.a11y-pause-anim .reveal,
+html.a11y-pause-anim .reveal-left,
+html.a11y-pause-anim .reveal-right,
+html.a11y-pause-anim .reveal-scale {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* ── BRANDED MEDIA BACKDROP (רקע מותגי שלא נשאר ריק) ───────────── */
+/* שכבת בסיס מותגית שתמיד נראית — גם לפני/בלי שהסרטון נטען */
+.media-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 28% 30%, rgba(200,160,53,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 85%, rgba(200,160,53,0.06) 0%, transparent 55%),
+    linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 55%, var(--navy-deep) 100%);
+}
+.media-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+/* הסרטון מתחיל שקוף ו"נכנס" ברכות כשהוא מוכן לנגינה */
+.media-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.media-video.is-ready { opacity: var(--media-opacity, 0.5); }

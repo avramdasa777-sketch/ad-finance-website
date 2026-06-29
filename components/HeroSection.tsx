@@ -5,10 +5,17 @@ import Link from 'next/link';
 export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [loaded, setLoaded] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 100);
     return () => clearTimeout(timer);
+  }, []);
+
+  // אם הסרטון כבר מוכן עוד לפני שה-handler נקשר — נסמן אותו מוכן
+  useEffect(() => {
+    const v = videoRef.current;
+    if (v && v.readyState >= 3) setVideoReady(true);
   }, []);
 
   return (
@@ -23,23 +30,31 @@ export default function HeroSection() {
       }}
       aria-label="דף הבית של A.D Finance"
     >
-      {/* Video Background */}
+      {/* רקע מותגי בסיסי — תמיד נראה, גם לפני/בלי שהסרטון נטען (אף פעם לא ריק) */}
+      <div className="media-backdrop" aria-hidden="true" />
+
+      {/* תמונת סטילס מותגית — מופיעה מיד עד שהסרטון מוכן */}
+      <img
+        src="/images/financial.jpg"
+        alt=""
+        aria-hidden="true"
+        className="media-poster"
+        style={{ opacity: videoReady ? 0 : 0.5, transition: 'opacity 0.9s ease' }}
+      />
+
+      {/* Video Background — נכנס ברכות (fade-in) רק כשהוא מוכן לנגינה */}
       <video
         ref={videoRef}
         autoPlay
         muted
         loop
         playsInline
+        preload="auto"
         aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          opacity: 0.55,
-          zIndex: 0,
-        }}
+        className={`media-video${videoReady ? ' is-ready' : ''}`}
+        style={{ ['--media-opacity' as string]: '0.55' }}
+        onCanPlay={() => setVideoReady(true)}
+        onLoadedData={() => setVideoReady(true)}
       >
         <source src="/hero-video.mp4" type="video/mp4" />
         <source src="https://videos.pexels.com/video-files/18743334/18743334-hd_1920_1080_60fps.mp4" type="video/mp4" />
@@ -67,7 +82,7 @@ export default function HeroSection() {
 
       {/* Content */}
       <div style={{ position: 'relative', zIndex: 2, maxWidth: '1280px', margin: '0 auto', padding: 'clamp(104px, 12vw, 120px) 20px clamp(56px, 8vw, 80px)', width: '100%' }}>
-        <div style={{ maxWidth: '680px' }}>
+        <div style={{ maxWidth: '780px', margin: '0 auto', textAlign: 'center' }}>
 
           {/* Tag */}
           <div
@@ -116,7 +131,8 @@ export default function HeroSection() {
               fontSize: 'clamp(1rem, 2vw, 1.2rem)',
               lineHeight: 1.75,
               marginBottom: '40px',
-              maxWidth: '540px',
+              maxWidth: '560px',
+              marginInline: 'auto',
               opacity: loaded ? 1 : 0,
               transform: loaded ? 'none' : 'translateY(40px)',
               transition: 'all 0.9s ease 0.35s',
@@ -132,6 +148,7 @@ export default function HeroSection() {
             style={{
               display: 'flex',
               flexWrap: 'wrap',
+              justifyContent: 'center',
               gap: '14px',
               marginBottom: '56px',
               opacity: loaded ? 1 : 0,
@@ -164,7 +181,7 @@ export default function HeroSection() {
               width: '40px',
               height: '3px',
               background: '#c8a035',
-              marginBottom: '16px',
+              margin: '0 auto 16px',
               borderRadius: '2px',
             }} />
             <p
@@ -173,9 +190,9 @@ export default function HeroSection() {
                 fontSize: '18px',
                 fontWeight: 600,
                 lineHeight: 1.9,
-                maxWidth: '540px',
+                maxWidth: '560px',
                 letterSpacing: '0.01em',
-                margin: 0,
+                margin: '0 auto',
               }}
             >
               אנחנו לא רק מנהלים מספרים —{' '}

@@ -1,247 +1,246 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-type FontSize = 'normal' | 'large' | 'xlarge';
-type Contrast = 'normal' | 'high';
+/* ── הגדרות התפריט ─────────────────────────────────────────────── */
+type ToggleKey = 'contrast' | 'grayscale' | 'links' | 'readable' | 'pause';
+
+const TOGGLES: { key: ToggleKey; label: string; cls: string; icon: React.ReactNode }[] = [
+  {
+    key: 'contrast', label: 'ניגודיות גבוהה', cls: 'a11y-contrast',
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="9" /><path d="M12 3v18" fill="currentColor" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none" /></svg>,
+  },
+  {
+    key: 'grayscale', label: 'גווני אפור', cls: 'a11y-grayscale',
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2.7l5.7 5.7a8 8 0 1 1-11.4 0z" /></svg>,
+  },
+  {
+    key: 'links', label: 'הדגשת קישורים', cls: 'a11y-links-highlight',
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1" /><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1" /></svg>,
+  },
+  {
+    key: 'readable', label: 'ריווח קריא', cls: 'a11y-readable',
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7V5h16v2" /><path d="M9 20h6" /><path d="M12 5v15" /></svg>,
+  },
+  {
+    key: 'pause', label: 'עצירת אנימציות', cls: 'a11y-pause-anim',
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="5" width="4" height="14" rx="1" /><rect x="14" y="5" width="4" height="14" rx="1" /></svg>,
+  },
+];
+
+const FONT_STEPS = [100, 112, 125, 140]; // אחוזי גודל טקסט
 
 export default function AccessibilityWidget() {
-  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
-  const [fontSize, setFontSize] = useState<FontSize>('normal');
-  const [contrast, setContrast] = useState<Contrast>('normal');
-  const [linksHighlight, setLinksHighlight] = useState(false);
+  const [active, setActive] = useState<Record<string, boolean>>({});
+  const [fontStep, setFontStep] = useState(0);
 
+  // טעינת העדפות שמורות
   useEffect(() => {
-    const root = document.documentElement;
-    if (fontSize === 'large') root.style.fontSize = '18px';
-    else if (fontSize === 'xlarge') root.style.fontSize = '20px';
-    else root.style.fontSize = '';
-  }, [fontSize]);
+    try {
+      const saved = JSON.parse(localStorage.getItem('ad-a11y') || '{}');
+      if (saved.active) setActive(saved.active);
+      if (typeof saved.fontStep === 'number') setFontStep(saved.fontStep);
+    } catch {}
+  }, []);
 
+  // החלת המצב על ה-DOM + שמירה
   useEffect(() => {
-    document.body.style.filter = contrast === 'high' ? 'contrast(1.3)' : '';
-  }, [contrast]);
+    const html = document.documentElement;
+    TOGGLES.forEach((t) => html.classList.toggle(t.cls, !!active[t.key]));
+    html.style.fontSize = fontStep === 0 ? '' : `${FONT_STEPS[fontStep]}%`;
+    localStorage.setItem('ad-a11y', JSON.stringify({ active, fontStep }));
+  }, [active, fontStep]);
 
+  // נעילת גלילת רקע + סגירה ב-Esc כשהמגירה פתוחה
   useEffect(() => {
-    const style = document.getElementById('a11y-links');
-    if (linksHighlight) {
-      if (!style) {
-        const el = document.createElement('style');
-        el.id = 'a11y-links';
-        el.textContent = 'a { text-decoration: underline !important; text-underline-offset: 3px !important; }';
-        document.head.appendChild(el);
-      }
-    } else {
-      style?.remove();
-    }
-  }, [linksHighlight]);
+    if (!open) return;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
 
-  const reset = () => {
-    setFontSize('normal');
-    setContrast('normal');
-    setLinksHighlight(false);
-  };
+  const toggle = (key: string) => setActive((a) => ({ ...a, [key]: !a[key] }));
+  const reset = () => { setActive({}); setFontStep(0); };
 
   return (
     <>
-      {/* Tab — always fixed at left edge, never moves */}
+      {/* כפתור עגול — פינה ימנית תחתונה */}
       <button
-        onClick={() => { setHidden(h => !h); setOpen(false); }}
-        aria-label={hidden ? 'הצג כפתור נגישות' : 'הסתר כפתור נגישות'}
-        title={hidden ? 'הצג' : 'הסתר'}
+        onClick={() => setOpen(true)}
+        aria-label="פתיחת תפריט נגישות"
+        title="נגישות"
         style={{
-          position: 'fixed',
-          bottom: '108px',
-          left: 0,
-          zIndex: 901,
-          width: '16px',
-          height: '40px',
-          background: 'var(--navy)',
-          border: '1px solid rgba(200,160,53,0.4)',
-          borderLeft: 'none',
-          borderRadius: '0 8px 8px 0',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          color: 'var(--gold)',
-          boxShadow: '2px 0 10px rgba(0,0,0,0.2)',
-          transition: 'background 0.2s',
+          position: 'fixed', bottom: '28px', right: '28px', zIndex: 940,
+          width: '56px', height: '56px', borderRadius: '50%',
+          background: 'var(--navy)', border: '2px solid var(--gold)', color: 'var(--gold)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+          boxShadow: '0 6px 24px rgba(0,0,0,0.28)',
+          transition: 'transform 0.25s ease, background 0.25s ease, color 0.25s ease',
         }}
-        onMouseEnter={e => (e.currentTarget.style.background = 'var(--navy-light)')}
-        onMouseLeave={e => (e.currentTarget.style.background = 'var(--navy)')}
+        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.color = 'var(--navy-deep)'; e.currentTarget.style.transform = 'scale(1.06)'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--navy)'; e.currentTarget.style.color = 'var(--gold)'; e.currentTarget.style.transform = 'scale(1)'; }}
       >
-        <svg
-          width="8"
-          height="8"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="3"
-          style={{
-            transition: 'transform 0.35s ease',
-            transform: hidden ? 'rotate(0deg)' : 'rotate(180deg)',
-          }}
-          aria-hidden="true"
-        >
-          <path d="M9 18l6-6-6-6"/>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <circle cx="12" cy="3.6" r="1.7" fill="currentColor" stroke="none" />
+          <path d="M4.5 8c2.4 1.1 5 1.6 7.5 1.6S17.1 9.1 19.5 8" />
+          <path d="M12 9.6V15" />
+          <path d="M8.5 21l3.5-6 3.5 6" />
         </svg>
       </button>
 
-      {/* Button + Panel — slides in/out */}
+      {/* רקע כהה (overlay) — לחיצה סוגרת */}
       <div
+        onClick={() => setOpen(false)}
+        aria-hidden="true"
         style={{
-          position: 'fixed',
-          bottom: '100px',
-          left: '28px',
-          zIndex: 900,
+          position: 'fixed', inset: 0, zIndex: 1050,
+          background: 'rgba(7,15,30,0.5)', backdropFilter: 'blur(2px)',
+          opacity: open ? 1 : 0, visibility: open ? 'visible' : 'hidden',
+          transition: 'opacity 0.35s ease, visibility 0.35s ease',
+        }}
+      />
+
+      {/* מגירה צדדית — נכנסת/יוצאת מצד ימין */}
+      <aside
+        role="dialog"
+        aria-modal="true"
+        aria-label="תפריט נגישות"
+        style={{
+          position: 'fixed', top: 0, right: 0, zIndex: 1060, height: '100%',
+          width: 'min(360px, 88vw)', background: 'var(--white)',
+          boxShadow: '-14px 0 44px rgba(7,15,30,0.28)',
+          transform: open ? 'translateX(0)' : 'translateX(100%)',
           transition: 'transform 0.4s cubic-bezier(0.4,0,0.2,1)',
-          transform: hidden ? 'translateX(calc(-28px - 48px - 20px))' : 'translateX(0)',
+          display: 'flex', flexDirection: 'column', direction: 'rtl',
         }}
       >
-        {/* Accessibility toggle button */}
-        <button
-          onClick={() => setOpen(o => !o)}
-          aria-label="אפשרויות נגישות"
-          aria-expanded={open}
-          style={{
-            width: '48px',
-            height: '48px',
-            background: 'var(--navy)',
-            border: '2px solid var(--gold)',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            color: 'var(--gold)',
-            transition: 'all 0.3s',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.background = 'var(--gold)';
-            e.currentTarget.style.color = 'var(--navy-deep)';
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.background = 'var(--navy)';
-            e.currentTarget.style.color = 'var(--gold)';
-          }}
-        >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"/>
-            <circle cx="12" cy="8" r="1" fill="currentColor"/>
-            <path d="M12 11v6M9 13h6"/>
-          </svg>
-        </button>
-
-        {/* Panel */}
-        {open && (
-          <div
-            role="dialog"
-            aria-label="תפריט נגישות"
+        {/* כותרת */}
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '20px 22px', background: 'var(--navy)', borderBottom: '1px solid rgba(200,160,53,0.3)',
+        }}>
+          <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--gold)', fontSize: '18px', fontWeight: 800 }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="12" cy="3.6" r="1.7" fill="currentColor" stroke="none" />
+              <path d="M4.5 8c2.4 1.1 5 1.6 7.5 1.6S17.1 9.1 19.5 8" />
+              <path d="M12 9.6V15" />
+              <path d="M8.5 21l3.5-6 3.5 6" />
+            </svg>
+            נגישות
+          </h2>
+          <button
+            onClick={() => setOpen(false)}
+            aria-label="סגירת תפריט נגישות"
             style={{
-              position: 'absolute',
-              bottom: 'calc(100% + 12px)',
-              left: 0,
-              background: 'var(--white)',
-              border: '1px solid rgba(200,160,53,0.3)',
-              borderRadius: '16px',
-              padding: '20px',
-              width: '220px',
-              boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
-              animation: 'slideDown 0.2s ease',
+              width: '38px', height: '38px', borderRadius: '50%', border: '1px solid rgba(200,160,53,0.4)',
+              background: 'transparent', color: 'var(--gold)', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s',
             }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(200,160,53,0.15)')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h2 style={{ color: 'var(--navy)', fontWeight: 700, fontSize: '15px', margin: 0 }}>נגישות</h2>
-              <button
-                onClick={() => setOpen(false)}
-                aria-label="סגור תפריט נגישות"
-                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-light)', padding: '2px' }}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M18 6L6 18M6 6l12 12"/>
-                </svg>
-              </button>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
+          </button>
+        </div>
+
+        {/* גוף נגלל */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '20px 22px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+
+          {/* גודל טקסט */}
+          <div style={{ background: 'var(--cream)', borderRadius: '16px', padding: '16px 18px', border: '1px solid rgba(200,160,53,0.18)' }}>
+            <p style={{ margin: '0 0 12px', fontWeight: 700, color: 'var(--navy)', fontSize: '14px' }}>גודל טקסט</p>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+              <FontBtn label="−" aria="הקטנת טקסט" onClick={() => setFontStep((s) => Math.max(0, s - 1))} disabled={fontStep === 0} />
+              <span style={{ fontSize: '15px', color: 'var(--text-mid)', fontWeight: 700, minWidth: '52px', textAlign: 'center' }}>{FONT_STEPS[fontStep]}%</span>
+              <FontBtn label="+" aria="הגדלת טקסט" onClick={() => setFontStep((s) => Math.min(FONT_STEPS.length - 1, s + 1))} disabled={fontStep === FONT_STEPS.length - 1} />
             </div>
-
-            <A11ySection label="גודל טקסט">
-              {(['normal', 'large', 'xlarge'] as FontSize[]).map(size => (
-                <A11yBtn
-                  key={size}
-                  label={size === 'normal' ? 'רגיל' : size === 'large' ? 'גדול' : 'גדול מאוד'}
-                  active={fontSize === size}
-                  onClick={() => setFontSize(size)}
-                />
-              ))}
-            </A11ySection>
-
-            <A11ySection label="ניגודיות">
-              <A11yBtn label="רגילה" active={contrast === 'normal'} onClick={() => setContrast('normal')} />
-              <A11yBtn label="גבוהה" active={contrast === 'high'} onClick={() => setContrast('high')} />
-            </A11ySection>
-
-            <A11ySection label="קישורים">
-              <A11yBtn label={linksHighlight ? 'מסומנים' : 'רגיל'} active={linksHighlight} onClick={() => setLinksHighlight(!linksHighlight)} />
-            </A11ySection>
-
-            <button
-              onClick={reset}
-              style={{
-                marginTop: '12px',
-                width: '100%',
-                padding: '8px',
-                background: 'none',
-                border: '1px solid rgba(200,160,53,0.35)',
-                borderRadius: '8px',
-                color: 'var(--gold)',
-                fontFamily: 'Heebo, sans-serif',
-                fontWeight: 600,
-                fontSize: '13px',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(200,160,53,0.08)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'none')}
-            >
-              אפס הכל
-            </button>
           </div>
-        )}
-      </div>
+
+          {/* כפתורי הפעלה/כיבוי */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {TOGGLES.map((t) => {
+              const on = !!active[t.key];
+              return (
+                <button
+                  key={t.key}
+                  onClick={() => toggle(t.key)}
+                  aria-pressed={on}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '12px', width: '100%',
+                    padding: '13px 15px', borderRadius: '14px', cursor: 'pointer',
+                    fontFamily: 'Heebo, sans-serif', fontSize: '15px', fontWeight: 600, textAlign: 'right',
+                    border: `1.5px solid ${on ? 'var(--gold)' : 'rgba(13,31,60,0.12)'}`,
+                    background: on ? 'rgba(200,160,53,0.12)' : 'var(--white)',
+                    color: on ? 'var(--gold)' : 'var(--text-mid)',
+                    transition: 'all 0.2s',
+                  }}
+                  onMouseEnter={(e) => { if (!on) e.currentTarget.style.background = 'var(--cream)'; }}
+                  onMouseLeave={(e) => { if (!on) e.currentTarget.style.background = 'var(--white)'; }}
+                >
+                  <span style={{ display: 'flex', color: on ? 'var(--gold)' : 'var(--navy)' }}>{t.icon}</span>
+                  <span style={{ flex: 1 }}>{t.label}</span>
+                  {/* מתג */}
+                  <span style={{
+                    width: '38px', height: '22px', borderRadius: '50px', flexShrink: 0, position: 'relative',
+                    background: on ? 'var(--gold)' : 'rgba(13,31,60,0.18)', transition: 'background 0.2s',
+                  }}>
+                    <span style={{
+                      position: 'absolute', top: '2px', right: on ? '2px' : '18px',
+                      width: '18px', height: '18px', borderRadius: '50%', background: '#fff',
+                      transition: 'right 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.25)',
+                    }} />
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* איפוס */}
+          <button
+            onClick={reset}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              width: '100%', padding: '12px', borderRadius: '14px',
+              border: '1px solid rgba(13,31,60,0.18)', background: 'transparent',
+              color: 'var(--navy)', fontFamily: 'Heebo, sans-serif', fontWeight: 700, fontSize: '14px', cursor: 'pointer', transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--cream)')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+          >
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8" /><path d="M3 3v5h5" /></svg>
+            איפוס הגדרות
+          </button>
+
+          <a href="/accessibility" style={{ display: 'block', textAlign: 'center', fontSize: '13px', color: 'var(--gold)', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+            להצהרת הנגישות המלאה
+          </a>
+        </div>
+      </aside>
     </>
   );
 }
 
-function A11ySection({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div style={{ marginBottom: '14px' }}>
-      <p style={{ color: 'var(--text-light)', fontSize: '11px', fontWeight: 600, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>
-        {label}
-      </p>
-      <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function A11yBtn({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+/* כפתור עגול לשינוי גודל טקסט */
+function FontBtn({ label, aria, onClick, disabled }: { label: string; aria: string; onClick: () => void; disabled?: boolean }) {
   return (
     <button
       onClick={onClick}
+      aria-label={aria}
+      disabled={disabled}
       style={{
-        padding: '5px 10px',
-        borderRadius: '6px',
-        border: `1.5px solid ${active ? 'var(--gold)' : 'rgba(0,0,0,0.12)'}`,
-        background: active ? 'rgba(200,160,53,0.1)' : 'transparent',
-        color: active ? 'var(--gold)' : 'var(--text-mid)',
-        fontFamily: 'Heebo, sans-serif',
-        fontSize: '12px',
-        fontWeight: active ? 700 : 500,
-        cursor: 'pointer',
-        transition: 'all 0.2s',
+        width: '44px', height: '44px', borderRadius: '12px', flexShrink: 0,
+        border: '1px solid rgba(200,160,53,0.35)',
+        background: disabled ? 'rgba(13,31,60,0.04)' : 'var(--white)',
+        color: disabled ? 'var(--text-light)' : 'var(--navy)',
+        fontSize: '22px', fontWeight: 700, lineHeight: 1,
+        cursor: disabled ? 'not-allowed' : 'pointer', transition: 'all 0.2s',
       }}
+      onMouseEnter={(e) => { if (!disabled) { e.currentTarget.style.background = 'var(--gold)'; e.currentTarget.style.color = 'var(--navy-deep)'; } }}
+      onMouseLeave={(e) => { if (!disabled) { e.currentTarget.style.background = 'var(--white)'; e.currentTarget.style.color = 'var(--navy)'; } }}
     >
       {label}
     </button>
