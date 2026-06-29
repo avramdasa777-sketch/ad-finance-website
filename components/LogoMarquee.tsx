@@ -1,14 +1,15 @@
 'use client';
 
 // הגופים הפיננסיים שאברהם עובד איתם — לוגואים מקוריים (public/logos)
+// tall = לוגו אנכי שמקבל גובה מעט גדול יותר כדי להיראות מאוזן בבר
 const LOGOS = [
   { src: '/logos/menora.png',    alt: 'מנורה מבטחים' },
-  { src: '/logos/migdal.png',    alt: 'מגדל' },
+  { src: '/logos/migdal.svg',    alt: 'מגדל', tall: true },
   { src: '/logos/harel.svg',     alt: 'הראל' },
   { src: '/logos/phoenix.png',   alt: 'הפניקס' },
-  { src: '/logos/clal.png',      alt: 'כלל' },
+  { src: '/logos/clal.svg',      alt: 'כלל ביטוח' },
   { src: '/logos/meitav.png',    alt: 'מיטב' },
-  { src: '/logos/mor.png',       alt: 'מור' },
+  { src: '/logos/mor.svg',       alt: 'מור בית השקעות' },
   { src: '/logos/analyst.svg',   alt: 'אנליסט' },
   { src: '/logos/ayalon.svg',    alt: 'איילון' },
   { src: '/logos/altshuler.png', alt: 'אלטשולר שחם' },
@@ -38,15 +39,14 @@ export default function LogoMarquee() {
       <div className="logo-marquee" dir="ltr">
         <div className="logo-track">
           {doubled.map((l, i) => (
-            <img
-              key={i}
-              src={l.src}
-              alt={i < LOGOS.length ? l.alt : ''}
-              aria-hidden={i >= LOGOS.length}
-              className="logo-item"
-              loading="lazy"
-              draggable={false}
-            />
+            <div className="logo-cell" key={i} aria-hidden={i >= LOGOS.length}>
+              <img
+                src={l.src}
+                alt={i < LOGOS.length ? l.alt : ''}
+                className={l.tall ? 'logo-item tall' : 'logo-item'}
+                draggable={false}
+              />
+            </div>
           ))}
         </div>
       </div>

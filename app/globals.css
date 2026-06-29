@@ -638,20 +638,33 @@ html.a11y-pause-anim .reveal-scale {
   display: flex;
   align-items: center;
   width: max-content;
-  gap: 64px;
+  gap: 0;
   animation: marquee 38s linear infinite;
 }
 .logo-marquee:hover .logo-track {
   animation-play-state: paused;
 }
+/* תא ברוחב קבוע — מבטיח מרווחים שווים לחלוטין בין כל הלוגואים */
+.logo-cell {
+  flex: 0 0 auto;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .logo-item {
-  height: 46px;
+  max-height: 28px;
+  max-width: 78px;
   width: auto;
-  max-width: 165px;
+  height: auto;
   object-fit: contain;
-  flex-shrink: 0;
   opacity: 1;
   transition: transform 0.3s ease;
+}
+/* לוגו אנכי (מגדל) — גובה מעט גדול יותר כדי שייראה מאוזן מול האחרים */
+.logo-item.tall {
+  max-height: 44px;
+  max-width: 50px;
 }
 .logo-item:hover {
   transform: scale(1.08);
